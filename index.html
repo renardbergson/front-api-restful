@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="#" type="image/x-icon">
+    <style>
+        div {
+            margin-bottom: 10px;
+        }
+    </style>
     <title>Front End - API Restful</title>
 </head>
 <body>
@@ -11,6 +16,25 @@
     <ul id="products-list"></ul>
 
     <hr>
+
+    <h2>Cadastro de Produtos</h2>
+    <form id="form">
+        <div>
+            <label for="name">Nome</label>
+            <input id="name" type="text" name="name">
+        </div>
+        <div>
+            <label for="brand">Marca</label>
+            <input id="brand" type="text" name="brand">
+        </div>
+        <div>
+            <label for="price">Preço</label>
+            <input id="price" type="text" name="price">
+        </div>
+        <div>
+            <button type="submit">Cadastrar</button>
+        </div>
+    </form>
     
     <script src="index.js"></script>
 </body>

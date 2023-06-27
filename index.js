@@ -1,18 +1,32 @@
+const api_link = 'http://localhost:8080/api/products'
 const productsList = document.querySelector('#products-list')
 const form = document.querySelector('#form')
 
 // ======= GET =======
 function listProducts() {
-    fetch('http://localhost:8080/api/products')
+    fetch(api_link)
     .then(response => response.json())
     .then(data => {
-        const productsHtml = data.map(product => 
-            `<li>${product.name} - ${product.brand} - ${product.price}</li>`
-        ).join('')
+        const productsHtml = data.map(product => `
+        <li>
+        ${product.name} - ${product.brand} - ${product.price} - <a href="#" class="delete-btn" 
+        data-id=${product._id}>[excluir]</a>
+        </li>
+        `).join('')
 
         //console.log(productsHtml)
 
         productsList.innerHTML = productsHtml
+
+        const deleteBtns = document.querySelectorAll('.delete-btn')
+        
+        deleteBtns.forEach(button => button.onclick = function (e) {
+            e.preventDefault()
+            
+            const id = this.dataset.id
+
+            deleteProduct(id)
+        })
 
         /* data.forEach(product => {
             const productsHtml = `<li>${product.name} - ${product.brand} - ${product.price}</li>`
@@ -22,9 +36,7 @@ function listProducts() {
             productsList.innerHTML += productsHtml
         }) */
     })   
-}
-
-listProducts()
+} listProducts()
 
 // ======= POST ======= 
 form.onsubmit = e => {
@@ -35,7 +47,7 @@ form.onsubmit = e => {
     const price = form.price.value
 
     if (name && brand && price != '') {   
-        fetch('http://localhost:8080/api/products', {
+        fetch(api_link, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -55,4 +67,20 @@ form.onsubmit = e => {
                 }
             })
     }
+}
+
+// ======= DELETE =======
+function deleteProduct(id) {
+    fetch(`${api_link}/${id}`, {
+        method: 'DELETE'
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === 'product succesfully removed') {
+                alert('Produto removido com sucesso!')
+                listProducts() // refreshing products list in the screen
+            } else {
+                alert('Ops, ocorreu algum erro, tente novamente!')
+            }
+        })
 }

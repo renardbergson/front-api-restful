@@ -16,25 +16,17 @@ function listProducts() {
 
         //console.log(productsHtml)
 
-        productsList.innerHTML = productsHtml
-
-        const deleteBtns = document.querySelectorAll('.delete-btn')
-        
-        deleteBtns.forEach(button => button.onclick = function (e) {
-            e.preventDefault()
-            
-            const id = this.dataset.id
-
-            deleteProduct(id)
-        })
-
-        /* data.forEach(product => {
+        /*  data.forEach(product => {
             const productsHtml = `<li>${product.name} - ${product.brand} - ${product.price}</li>`
             
             //console.log(productsHtml)
 
             productsList.innerHTML += productsHtml
         }) */
+
+        productsList.innerHTML = productsHtml
+        
+        deleteProduct()
     })   
 } listProducts()
 
@@ -56,31 +48,42 @@ form.onsubmit = e => {
                 price: price,
             })
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message === 'product succesfully saved') {
-                    alert('Produto cadastrado com sucesso!')
-                    form.reset() // reseting form fields
-                    listProducts() // refreshing products list in the screen
-                } else {
-                    alert('Ops, ocorreu algum erro, tente novamente!')
-                }
-            })
-    }
-}
-
-// ======= DELETE =======
-function deleteProduct(id) {
-    fetch(`${api_link}/${id}`, {
-        method: 'DELETE'
-    })
         .then(response => response.json())
         .then(data => {
-            if (data.message === 'product succesfully removed') {
-                alert('Produto removido com sucesso!')
+            if (data.message === 'product succesfully saved') {
+                alert('Produto cadastrado com sucesso!')
+                form.reset() // reseting form fields
                 listProducts() // refreshing products list in the screen
             } else {
                 alert('Ops, ocorreu algum erro, tente novamente!')
             }
         })
+    }
+}
+
+// ======= DELETE =======
+function deleteProduct() {
+    const deleteBtns = document.querySelectorAll('.delete-btn')
+
+    deleteBtns.forEach(button => button.onclick = function (e) {
+        e.preventDefault()
+        
+        const id = this.dataset.id
+        const question = prompt('Tem certeza de que deseja excluir este produto? Digite "sim"')
+
+        if (question === 'sim' || 'Sim') {
+            fetch(`${api_link}/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === 'product succesfully removed') {
+                    alert('Produto removido com sucesso!')
+                    listProducts() // refreshing products list in the screen
+                } else {
+                    alert('Ops, ocorreu algum erro, tente novamente!')
+                }
+            })
+        }
+    })
 }

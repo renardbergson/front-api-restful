@@ -10,7 +10,8 @@ function listProducts() {
     .then(data => {
         const productsHtml = data.map(product => `
         <li>
-            ${product.name} - ${product.brand} - ${product.price} - 
+            ${product.name} - ${product.brand} - R$ ${product.price.toFixed(2).replace('.' , ',')} 
+            - 
             <a href="#" class="edit-btn" data-id=${product._id} data-name=${product.name} data-brand=${product.brand} data-price=${product.price}>[editar]</a>
 
             <a href="#" class="delete-btn" data-id=${product._id}>[excluir]</a>
@@ -40,9 +41,10 @@ form.onsubmit = e => {
 
     const name = form.name.value
     const brand = form.brand.value
-    const price = form.price.value
+    const priceInput = form.price.value.replace(',' , '.').replace('R$', '')
+    const price = +priceInput
 
-    if (name && brand && price != '') {   
+    if (name && brand && priceInput != '') {
         fetch(api_url, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},

@@ -10,7 +10,7 @@ function listProducts() {
     .then(data => {
         const productsHtml = data.map(product => `
         <li>
-            ${product.name} - ${product.brand} - R$ ${product.price.toFixed(2).replace('.' , ',')} 
+            ${product.name} - ${product.brand} - R$ ${priceConvert(product.price)} 
             - 
             <a href="#" class="edit-btn" data-id=${product._id} data-name=${product.name} data-brand=${product.brand} data-price=${product.price}>[editar]</a>
 
@@ -41,10 +41,9 @@ form.onsubmit = e => {
 
     const name = form.name.value
     const brand = form.brand.value
-    const priceInput = form.price.value.replace(',' , '.').replace('R$', '')
-    const price = +priceInput
+    const price =  priceConvert(form.price.value, 'ok')
 
-    if (name && brand && priceInput != '') {
+    if (name && brand && price != '') {
         fetch(api_url, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -80,7 +79,7 @@ function editProduct() {
         editForm.id.value = id
         editForm.name.value = name
         editForm.brand.value = brand
-        editForm.price.value = price
+        editForm.price.value = priceConvert(price)
 
         visibilityControl(form, editForm)
 
@@ -90,13 +89,15 @@ function editProduct() {
             const _id = editForm.id.value
             const _name = editForm.name.value
             const _brand = editForm.brand.value
-            const _price = editForm.price.value
+            const _price = priceConvert(editForm.price.value, 'ok')
 
             overWriteProduct(_id, _name, _brand, _price)
         }  
     })
 
     function overWriteProduct (id, name, brand, price) {
+        //const convert = parseFloat(price)
+
         fetch(`${api_url}/${id}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
@@ -161,4 +162,23 @@ function deleteProduct() {
 function visibilityControl (item1, item2) {
     item1.classList.add('hidden')
     item2.classList.remove('hidden')
+}
+
+// Price Convert and Format
+function priceConvert (priceOutput, response) {
+    if (typeof(priceOutput) === 'number') {
+        const format = priceOutput.toFixed(2).replace('.' , ',')
+        return format
+    }
+
+    if (typeof(priceOutput) === 'string' && response === undefined) {
+        const convert = +priceOutput
+        const format = convert.toFixed(2).replace('.' , ',')
+        return format
+    }
+
+    if (typeof(priceOutput === 'string') && response === 'ok') {
+        const replace = priceOutput.replace(',' , '.').replace('R$', '')
+        return replace
+    }
 }

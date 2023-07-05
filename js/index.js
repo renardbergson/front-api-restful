@@ -1,25 +1,44 @@
 const api_url = 'https://projeto-api-restful.onrender.com/api/products'
-const productsList = document.querySelector('#products-list')
+const products = document.querySelector('#products')
 const form = document.querySelector('#form')
-const editForm = document.querySelector('#editForm')
+const listProductsBtn = document.querySelector('#listProducts')
+
+// ======= START =======
+listProductsBtn.onclick = () => {
+    listProducts()
+    visibilityControl(form, products)
+}
 
 // ======= GET =======
 function listProducts() {
+    const loadingGif = document.querySelector('#loadingGif')
+    const productsList = document.querySelector('#products-list')
+    const goToRegister = document.querySelector('#goToRegister')
+
     fetch(api_url)
     .then(response => response.json())
     .then(data => {
-        const productsHtml = data.map(product => `
-        <li>
-            ${product.name} - ${product.brand} - R$ ${priceConvert(product.price)} 
-            - 
-            <a href="#" class="edit-btn" data-id=${product._id} data-name=${product.name} data-brand=${product.brand} data-price=${product.price}>[editar]</a>
+        let productsHtml
 
-            <a href="#" class="delete-btn" data-id=${product._id}>[excluir]</a>
-        </li>
-        `).join('')
+        if (data && data.length != 0) {
+            visibilityControl(loadingGif, null)
+
+            productsHtml = data.map(product => `
+            <li>
+                ${product.name} - ${product.brand} - R$ ${priceConvert(product.price)} 
+                - 
+                <a href="#" class="edit-btn" data-id=${product._id} data-name=${product.name} data-brand=${product.brand} data-price=${product.price}>[editar]</a>
+    
+                <a href="#" class="delete-btn" data-id=${product._id}>[excluir]</a>
+            </li>
+            `).join('')
+        } else {
+            visibilityControl(loadingGif, null)
+
+            productsHtml = '<li>Ops, não há produtos cadastrados <br> ou ocorreu algum erro na requisição!</li>'
+        }
 
         //console.log(productsHtml)
-
         /*  data.forEach(product => {
             const productsHtml = `<li>${product.name} - ${product.brand} - ${product.price}</li>`
             
@@ -33,7 +52,11 @@ function listProducts() {
         editProduct()
         deleteProduct()
     })   
-} listProducts()
+
+    goToRegister.onclick = () => {
+        visibilityControl(products, form)
+    }
+}
 
 // ======= POST ======= 
 form.onsubmit = e => {
@@ -68,6 +91,7 @@ form.onsubmit = e => {
 
 // ======= PUT =======
 function editProduct() {
+    const editForm = document.querySelector('#editForm')
     const editBtns = document.querySelectorAll('.edit-btn')
     const cancelBtn = document.querySelector('#cancelBtn')
 
@@ -96,8 +120,6 @@ function editProduct() {
     })
 
     function overWriteProduct (id, name, brand, price) {
-        //const convert = parseFloat(price)
-
         fetch(`${api_url}/${id}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
@@ -113,7 +135,7 @@ function editProduct() {
                 listProducts()
                 alert('Produto alterado com sucesso!')
                 editForm.reset()
-                visibilityControl(editForm, form)
+                visibilityControl(editForm, products)
             } else {
                 alert('Ops, ocorreu algum erro, tente novamente!')
             }
@@ -125,7 +147,7 @@ function editProduct() {
         
         editForm.reset()
         
-        visibilityControl(editForm, form)
+        visibilityControl(editForm, null)
     }
 }
 
@@ -148,7 +170,6 @@ function deleteProduct() {
             .then(response => response.json())
             .then(data => {
                 if (data.message === 'product succesfully removed') {
-                    alert('Produto removido com sucesso!')
                     listProducts() // refreshing products list in the screen
                 } else {
                     alert('Ops, ocorreu algum erro, tente novamente!')
@@ -160,8 +181,12 @@ function deleteProduct() {
 
 // ======= Visibility Control =======
 function visibilityControl (item1, item2) {
-    item1.classList.add('hidden')
-    item2.classList.remove('hidden')
+    if (item2 != null) {
+        item1.classList.add('hidden')
+        item2.classList.remove('hidden')
+    } else {
+        item1.classList.add('hidden')
+    }
 }
 
 // Price Convert and Format

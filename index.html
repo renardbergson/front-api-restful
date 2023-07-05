@@ -4,63 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="#" type="image/x-icon">
-    <style>
-        div {
-            margin-bottom: 10px;
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
+    <link rel="shortcut icon" href="#" type="image/x-icon">
+    <link rel="stylesheet" href="css/style.css">
     <title>Front End - API Restful</title>
 </head>
 <body>
-    <h2>Lista de Produtos</h2>
-    <ul id="products-list"></ul>
+    <div id="container">    
+        <form id="form">
+            <h2>Cadastrar Produto</h2>
+            <div>
+                <label for="name">Nome</label>
+                <input id="name" type="text" name="name">
+            </div>
+            <div>
+                <label for="brand">Marca</label>
+                <input id="brand" type="text" name="brand">
+            </div>
+            <div>
+                <label for="price">Preço</label>
+                <input id="price" type="text" name="price">
+            </div>
+            <div>
+                <button type="submit">Cadastrar</button>
+                <button id="listProducts">Listar Produtos</button>
+            </div>
+        </form>
 
-    <hr>
-
-    <form id="form">
-        <h2>Cadastrar Produto</h2>
-        <div>
-            <label for="name">Nome</label>
-            <input id="name" type="text" name="name">
+        <div id="products" class="hidden">
+            <h2>Lista de Produtos</h2>
+            <img src="img/loadingGif.gif" alt="a loading gif" id="loadingGif">
+            <ul id="products-list"></ul>
+            <button id="goToRegister">Cadastrar um Produto</button>
         </div>
-        <div>
-            <label for="brand">Marca</label>
-            <input id="brand" type="text" name="brand">
-        </div>
-        <div>
-            <label for="price">Preço</label>
-            <input id="price" type="text" name="price">
-        </div>
-        <div>
-            <button type="submit">Cadastrar</button>
-        </div>
-    </form>
-
-    <form id="editForm" class="hidden">
-        <h2>Editar Produto</h2>
-        <input type="hidden" name="id">
-        <div>
-            <label for="_name">Nome</label>
-            <input id="_name" type="text" name="name">
-        </div>
-        <div>
-            <label for="_brand">Marca</label>
-            <input id="_brand" type="text" name="brand">
-        </div>
-        <div>
-            <label for="_price">Preço</label>
-            <input id="_price" type="text" name="price">
-        </div>
-        <div>
-            <button type="submit">Editar</button>
-            <button id="cancelBtn">Cancelar</button>
-        </div>
-    </form>
     
-    <script src="index.js"></script>
+        <form id="editForm" class="hidden">
+            <h2>Editar Produto</h2>
+            <input type="hidden" name="id">
+            <div>
+                <label for="_name">Nome</label>
+                <input id="_name" type="text" name="name">
+            </div>
+            <div>
+                <label for="_brand">Marca</label>
+                <input id="_brand" type="text" name="brand">
+            </div>
+            <div>
+                <label for="_price">Preço</label>
+                <input id="_price" type="text" name="price">
+            </div>
+            <div>
+                <button type="submit">Editar</button>
+                <button id="cancelBtn">Cancelar</button>
+            </div>
+        </form>
+    </div>
+    
+    <script src="js/index.js"></script>
 </body>
 </html>

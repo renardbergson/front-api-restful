@@ -1,4 +1,4 @@
-const api_url = 'http://localhost:8080/api/products'
+const api_url = 'https://projeto-api-restful.onrender.com/api/products'
 const productsList = document.querySelector('#products-list')
 const form = document.querySelector('#form')
 const editForm = document.querySelector('#editForm')

@@ -4,21 +4,7 @@ const form = document.querySelector('#form')
 const listProductsBtn = document.querySelector('#listProducts')
 const pricePreview = document.querySelector('.pricePreview')
 
-form.price.oninput = e => {
-    const priceLenth = e.target.value.length
-    const priceNumber = +e.target.value
-    
-    if (priceLenth === 0) {
-        addOrRemoveClasses('pricePreview', 'add', 'invisible')
-    } else {
-        const formated = priceNumber.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
-        pricePreview.innerHTML = formated
-        addOrRemoveClasses('pricePreview', 'remove', 'invisible')
-        console.log(form.price.value)
-    }
-}
-
-// ======= START =======
+// ======= ON LISTING =======
 listProductsBtn.onclick = () => {
     listProducts()
     addOrRemoveClasses('form', 'add', 'hidden')
@@ -43,7 +29,7 @@ function listProducts() {
 
             productsHtml = data.map(product => `
             <li>
-                ${product.name} - ${product.brand} - R$ ${priceConvert(product.price)} 
+                ${product.name} - ${product.brand} - ${product.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})} 
                 - 
                 <a href="#" class="edit-btn" data-id=${product._id} data-name=${product.name} data-brand=${product.brand} data-price=${product.price}>[editar]</a>
     
@@ -120,11 +106,11 @@ function editProduct() {
         e.preventDefault()
 
         const {id, name, brand, price} = this.dataset
-        
+
         editForm.id.value = id
         editForm.name.value = name
         editForm.brand.value = brand
-        editForm.price.value = priceConvert(price)
+        editForm.price.value = price
 
         addOrRemoveClasses('editForm', 'remove', 'hidden')
 
@@ -134,7 +120,7 @@ function editProduct() {
             const _id = editForm.id.value
             const _name = editForm.name.value
             const _brand = editForm.brand.value
-            const _price = priceConvert(editForm.price.value, 'ok')
+            const _price = editForm.price.value
 
             overWriteProduct(_id, _name, _brand, _price)
         }  
@@ -198,28 +184,28 @@ function deleteProduct() {
     })
 }
 
+// ======= PRICE PREVIEW CONTROL AND FORMAT =======
+previewControl(form.price)
+
+function previewControl (element) {
+    element.oninput = e => {
+        const priceLenth = e.target.value.length
+        const priceNumber = +e.target.value
+        
+        if (priceLenth === 0) {
+            addOrRemoveClasses('pricePreview', 'add', 'invisible')
+        } else {
+            const formated = priceNumber.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+            pricePreview.innerHTML = formated
+            addOrRemoveClasses('pricePreview', 'remove', 'invisible')
+            console.log(form.price.value)
+        }
+    }
+}
+
 // ======= Visibility Control =======
 function addOrRemoveClasses (item, addOrRemove, className) {
     const command = `${item}.classList.${addOrRemove}('${className}')`
     const teste = new Function(command)
     return teste()
-}
-
-// Price Convert and Format
-function priceConvert (priceOutput, response) {
-    if (typeof(priceOutput) === 'number') {
-        const format = priceOutput.toFixed(2).replace('.' , ',')
-        return format
-    }
-
-    if (typeof(priceOutput) === 'string' && response === undefined) {
-        const convert = +priceOutput
-        const format = convert.toFixed(2).replace('.' , ',')
-        return format
-    }
-
-    if (typeof(priceOutput === 'string') && response === 'ok') {
-        const replace = priceOutput.replace(',' , '.').replace('R$', '')
-        return replace
-    }
 }

@@ -2,15 +2,32 @@ const api_url = 'https://projeto-api-restful.onrender.com/api/products'
 const products = document.querySelector('#products')
 const form = document.querySelector('#form')
 const listProductsBtn = document.querySelector('#listProducts')
+const pricePreview = document.querySelector('.pricePreview')
+
+form.price.oninput = e => {
+    const priceLenth = e.target.value.length
+    const priceNumber = +e.target.value
+    
+    if (priceLenth === 0) {
+        addOrRemoveClasses('pricePreview', 'add', 'invisible')
+    } else {
+        const formated = priceNumber.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+        pricePreview.innerHTML = formated
+        addOrRemoveClasses('pricePreview', 'remove', 'invisible')
+        console.log(form.price.value)
+    }
+}
 
 // ======= START =======
 listProductsBtn.onclick = () => {
     listProducts()
-    visibilityControl(form, products)
+    addOrRemoveClasses('form', 'add', 'hidden')
+    addOrRemoveClasses('products', 'remove', 'hidden')
 }
 
 // ======= GET =======
 function listProducts() {
+    const message = document.querySelector('#message')
     const loadingGif = document.querySelector('#loadingGif')
     const productsList = document.querySelector('#products-list')
     const goToRegister = document.querySelector('#goToRegister')
@@ -21,7 +38,8 @@ function listProducts() {
         let productsHtml
 
         if (data && data.length != 0) {
-            visibilityControl(loadingGif, null)
+            addOrRemoveClasses('loadingGif', 'add', 'hidden')
+            addOrRemoveClasses('message', 'add', 'hidden')
 
             productsHtml = data.map(product => `
             <li>
@@ -33,7 +51,8 @@ function listProducts() {
             </li>
             `).join('')
         } else {
-            visibilityControl(loadingGif, null)
+            addOrRemoveClasses('loadingGif', 'add', 'hidden')
+            addOrRemoveClasses('message', 'add', 'hidden')
 
             productsHtml = '<li>Ops, não há produtos cadastrados <br> ou ocorreu algum erro na requisição!</li>'
         }
@@ -54,7 +73,8 @@ function listProducts() {
     })   
 
     goToRegister.onclick = () => {
-        visibilityControl(products, form)
+        addOrRemoveClasses('products', 'add', 'hidden')
+        addOrRemoveClasses('form', 'remove', 'hidden')
     }
 }
 
@@ -64,7 +84,7 @@ form.onsubmit = e => {
 
     const name = form.name.value
     const brand = form.brand.value
-    const price =  priceConvert(form.price.value, 'ok')
+    const price =  form.price.value
 
     if (name && brand && price != '') {
         fetch(api_url, {
@@ -81,6 +101,7 @@ form.onsubmit = e => {
             if (data.message === 'product succesfully saved') {
                 alert('Produto cadastrado com sucesso!')
                 form.reset() // reseting form fields
+                addOrRemoveClasses('pricePreview', 'add', 'invisible')
                 listProducts() // refreshing products list in the screen
             } else {
                 alert('Ops, ocorreu algum erro, tente novamente!')
@@ -105,7 +126,7 @@ function editProduct() {
         editForm.brand.value = brand
         editForm.price.value = priceConvert(price)
 
-        visibilityControl(form, editForm)
+        addOrRemoveClasses('editForm', 'remove', 'hidden')
 
         editForm.onsubmit = e => {
             e.preventDefault()
@@ -135,7 +156,7 @@ function editProduct() {
                 listProducts()
                 alert('Produto alterado com sucesso!')
                 editForm.reset()
-                visibilityControl(editForm, products)
+                addOrRemoveClasses('editForm', 'add', 'hidden')
             } else {
                 alert('Ops, ocorreu algum erro, tente novamente!')
             }
@@ -144,10 +165,8 @@ function editProduct() {
 
     cancelBtn.onclick = e => {
         e.preventDefault()
-        
         editForm.reset()
-        
-        visibilityControl(editForm, null)
+        addOrRemoveClasses('editForm', 'add', 'hidden')
     }
 }
 
@@ -180,13 +199,10 @@ function deleteProduct() {
 }
 
 // ======= Visibility Control =======
-function visibilityControl (item1, item2) {
-    if (item2 != null) {
-        item1.classList.add('hidden')
-        item2.classList.remove('hidden')
-    } else {
-        item1.classList.add('hidden')
-    }
+function addOrRemoveClasses (item, addOrRemove, className) {
+    const command = `${item}.classList.${addOrRemove}('${className}')`
+    const teste = new Function(command)
+    return teste()
 }
 
 // Price Convert and Format

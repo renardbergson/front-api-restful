@@ -14,15 +14,16 @@
             <h2>Cadastrar Produto</h2>
             <div>
                 <label for="name">Nome</label>
-                <input id="name" type="text" name="name">
+                <input id="name" type="text" name="name" autocomplete="off">
             </div>
             <div>
                 <label for="brand">Marca</label>
-                <input id="brand" type="text" name="brand">
+                <input id="brand" type="text" name="brand" autocomplete="off">
             </div>
             <div>
                 <label for="price">Preço</label>
-                <input id="price" type="text" name="price">
+                <input id="price" type="number" name="price" autocomplete="off" step="0.01">
+                <div class="pricePreview">&nbsp</div>
             </div>
             <div>
                 <button type="submit">Cadastrar</button>
@@ -33,6 +34,7 @@
         <div id="products" class="hidden">
             <h2>Lista de Produtos</h2>
             <img src="img/loadingGif.gif" alt="a loading gif" id="loadingGif">
+            <p id="message">Por favor, aguarde. Esta aplicação utiliza um serviço de <br> hospedagem gratuito e a requisição pode demorar um pouco.</p>
             <ul id="products-list"></ul>
             <button id="goToRegister">Cadastrar um Produto</button>
         </div>

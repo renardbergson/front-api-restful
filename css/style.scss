@@ -9,20 +9,14 @@
     left: 50%;
     transform: translate(-50%, -50%);
 
-    #form {
-        .pricePreview {
-            position: relative;
-            margin-top: 10px;
-            color: green;
-            top: -7px;
-            left: 70px;
-            font-size: 0.9em;
-            transition: all linear 500ms;
-
-            &.invisible {
-                opacity: 0;
-            }
-        }
+    .pricePreview {
+        position: relative;
+        margin-top: 10px;
+        color: green;
+        top: -7px;
+        left: 70px;
+        font-size: 0.9em;
+        transition: all linear 500ms;
     }
     
     #products {

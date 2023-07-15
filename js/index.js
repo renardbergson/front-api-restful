@@ -1,11 +1,9 @@
 const api_url = 'https://projeto-api-restful.onrender.com/api/products'
 const products = document.querySelector('#products')
 const form = document.querySelector('#form')
-const listProductsBtn = document.querySelector('#listProducts')
-const pricePreview = document.querySelector('.pricePreview')
 
 // ======= ON LISTING =======
-listProductsBtn.onclick = () => {
+form.listProducts.onclick = () => {
     listProducts()
     addOrRemoveClasses('form', 'add', 'hidden')
     addOrRemoveClasses('products', 'remove', 'hidden')
@@ -87,7 +85,7 @@ form.onsubmit = e => {
             if (data.message === 'product succesfully saved') {
                 alert('Produto cadastrado com sucesso!')
                 form.reset() // reseting form fields
-                addOrRemoveClasses('pricePreview', 'add', 'invisible')
+                pricePreviewControl()
                 listProducts() // refreshing products list in the screen
             } else {
                 alert('Ops, ocorreu algum erro, tente novamente!')
@@ -112,6 +110,7 @@ function editProduct() {
         editForm.brand.value = brand
         editForm.price.value = price
 
+        pricePreviewControl(+price)
         addOrRemoveClasses('editForm', 'remove', 'hidden')
 
         editForm.onsubmit = e => {
@@ -142,6 +141,7 @@ function editProduct() {
                 listProducts()
                 alert('Produto alterado com sucesso!')
                 editForm.reset()
+                pricePreviewControl()
                 addOrRemoveClasses('editForm', 'add', 'hidden')
             } else {
                 alert('Ops, ocorreu algum erro, tente novamente!')
@@ -152,6 +152,7 @@ function editProduct() {
     cancelBtn.onclick = e => {
         e.preventDefault()
         editForm.reset()
+        pricePreviewControl()
         addOrRemoveClasses('editForm', 'add', 'hidden')
     }
 }
@@ -176,6 +177,7 @@ function deleteProduct() {
             .then(data => {
                 if (data.message === 'product succesfully removed') {
                     listProducts() // refreshing products list in the screen
+                    alert('Item removido da base de dados com sucesso!')
                 } else {
                     alert('Ops, ocorreu algum erro, tente novamente!')
                 }
@@ -185,27 +187,37 @@ function deleteProduct() {
 }
 
 // ======= PRICE PREVIEW CONTROL AND FORMAT =======
-previewControl(form.price)
+function pricePreviewControl (price) {
+    const prices = document.querySelectorAll('.price')
+    const previews = document.querySelectorAll('.pricePreview')
 
-function previewControl (element) {
-    element.oninput = e => {
-        const priceLenth = e.target.value.length
-        const priceNumber = +e.target.value
-        
-        if (priceLenth === 0) {
-            addOrRemoveClasses('pricePreview', 'add', 'invisible')
-        } else {
-            const formated = priceNumber.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
-            pricePreview.innerHTML = formated
-            addOrRemoveClasses('pricePreview', 'remove', 'invisible')
-            console.log(form.price.value)
-        }
+    // on receiving or not receiving a price value
+    if (price) {
+        previews.forEach(preview => {
+            preview.innerHTML = price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+        })
+    } else {
+        previews.forEach(preview => preview.innerHTML = '&nbsp') // empty space
     }
-}
+
+    // on typing a price value
+    prices.forEach(price => {
+        price.oninput = function () {
+            previews.forEach(preview => {
+                if (this.value) {
+                    const number = +this.value
+                    preview.innerHTML = number.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+                } else {
+                    previews.forEach(preview => preview.innerHTML = '&nbsp') // empty space
+                }
+            })
+        }
+    })
+} pricePreviewControl()
 
 // ======= Visibility Control =======
 function addOrRemoveClasses (item, addOrRemove, className) {
     const command = `${item}.classList.${addOrRemove}('${className}')`
-    const teste = new Function(command)
-    return teste()
+    const commandFunction = new Function(command)
+    return commandFunction()
 }

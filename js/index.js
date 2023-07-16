@@ -29,7 +29,7 @@ function listProducts() {
             <li>
                 ${product.name} - ${product.brand} - ${product.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})} 
                 - 
-                <a href="#" class="edit-btn" data-id=${product._id} data-name=${product.name} data-brand=${product.brand} data-price=${product.price}>[editar]</a>
+                <a href="#" class="edit-btn" data-id=${product._id} data-name=${JSON.stringify(product.name)} data-brand=${JSON.stringify(product.brand)} data-price=${product.price}>[editar]</a>
     
                 <a href="#" class="delete-btn" data-id=${product._id}>[excluir]</a>
             </li>

@@ -165,11 +165,9 @@ function deleteProduct() {
         e.preventDefault()
         
         const id = this.dataset.id
-        const question = prompt('Deseja mesmo excluir este produto? Digite "sim"')
+        const question = confirm('Deseja mesmo excluir este produto?')
 
-        if (question === null || question === 'null' || question === '') {
-            return
-        } else if (question === 'sim' || question === 'Sim') {
+        if (question) {
             fetch(`${api_url}/${id}`, {
                 method: 'DELETE'
             })

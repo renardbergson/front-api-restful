@@ -65,11 +65,19 @@
             width: 15em;
         }
 
+        #message {
+            margin-top: -1em;
+        }
+
         #products-list {
             list-style: none;
             padding: 10px 3px;
             overflow-x: auto;
             border: 1px dashed rgba(188, 188, 188, 0.566);
+
+            &:empty {
+                display: none;
+            }
 
             li {
                 white-space: nowrap;

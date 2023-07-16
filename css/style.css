@@ -86,11 +86,17 @@
 #container #products #loadingGif {
   width: 15em;
 }
+#container #products #message {
+  margin-top: -1em;
+}
 #container #products #products-list {
   list-style: none;
   padding: 10px 3px;
   overflow-x: auto;
   border: 1px dashed rgba(188, 188, 188, 0.566);
+}
+#container #products #products-list:empty {
+  display: none;
 }
 #container #products #products-list li {
   white-space: nowrap;

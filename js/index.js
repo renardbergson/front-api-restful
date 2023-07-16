@@ -4,6 +4,8 @@ const form = document.querySelector('#form')
 
 // ======= ON LISTING =======
 form.listProducts.onclick = () => {
+    form.reset()
+    pricePreviewControl()
     listProducts()
     addOrRemoveClasses('form', 'add', 'hidden')
     addOrRemoveClasses('products', 'remove', 'hidden')

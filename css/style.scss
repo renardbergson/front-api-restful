@@ -1,50 +1,89 @@
+@import 'base.scss';
+
 #container {
+    display: flex;
+    flex-direction: column;
     border: 1px solid black;
     border-radius: 10px;
     margin-bottom: 0;
-    min-width: 30%;
+    min-width: 19em;
+    max-width: 85%;
     text-align: center;
+    height: fit-content;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 
+    #form {
+        overflow-x: hidden;
+    }
+
+    label {
+        font-size: 1em;
+    }
+
+    input {
+        font-size: 0.83em;
+    }
+
+    button {
+        width: fit-content;
+        font-size: 0.8em;
+        white-space: nowrap;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .priceDiv {
+        margin-bottom: 0;
+    }
+
     .pricePreview {
         position: relative;
-        margin-top: 10px;
+        margin-top: 0.7em;
+        margin-bottom: 0;
         color: green;
-        top: -7px;
-        left: 70px;
+        top: -0.4em;
+        left: 4.5em;
         font-size: 0.9em;
         transition: all linear 500ms;
     }
     
     #products {
-        padding: 0 10px;
+        display: inline-block;
+        padding: 0 0.9em;
+        max-width: 100%;
+
+        &.hidden {
+            display: none;
+        }
 
         #loadingGif {
             width: 15em;
         }
 
-        li {
-            white-space: nowrap;
-        }
-
         #products-list {
             list-style: none;
-            padding: 0;
+            padding: 10px 3px;
+            overflow-x: auto;
+            border: 1px dashed rgba(188, 188, 188, 0.566);
+
+            li {
+                white-space: nowrap;
+                display: inline-block;
+                font-size: 1em;
+            }
         }
     }
 
     h2 {
-        margin-top: 10px;
+        margin-top: 0.6em;
     }
 
     div {
-        margin-bottom: 10px;
-    }
-    
-    .hidden {
-        display: none;
+        margin-bottom: 0.6em;
     }
 }

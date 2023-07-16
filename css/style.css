@@ -1,42 +1,105 @@
+* {
+  box-sizing: border-box;
+}
+
+@media (min-width: 1201px) {
+  body {
+    font-size: 19px;
+  }
+}
+@media (max-width: 1200px) {
+  body {
+    font-size: 18px;
+  }
+}
+@media (max-width: 992px) {
+  body {
+    font-size: 17px;
+  }
+}
+@media (max-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media (max-width: 600px) {
+  body {
+    font-size: 15px;
+  }
+}
+
 #container {
+  display: flex;
+  flex-direction: column;
   border: 1px solid black;
   border-radius: 10px;
   margin-bottom: 0;
-  min-width: 30%;
+  min-width: 19em;
+  max-width: 85%;
   text-align: center;
+  height: -moz-fit-content;
+  height: fit-content;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+#container #form {
+  overflow-x: hidden;
+}
+#container label {
+  font-size: 1em;
+}
+#container input {
+  font-size: 0.83em;
+}
+#container button {
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 0.8em;
+  white-space: nowrap;
+}
+#container .hidden {
+  display: none;
+}
+#container .priceDiv {
+  margin-bottom: 0;
+}
 #container .pricePreview {
   position: relative;
-  margin-top: 10px;
+  margin-top: 0.7em;
+  margin-bottom: 0;
   color: green;
-  top: -7px;
-  left: 70px;
+  top: -0.4em;
+  left: 4.5em;
   font-size: 0.9em;
   transition: all linear 500ms;
 }
 #container #products {
-  padding: 0 10px;
+  display: inline-block;
+  padding: 0 0.9em;
+  max-width: 100%;
+}
+#container #products.hidden {
+  display: none;
 }
 #container #products #loadingGif {
   width: 15em;
 }
-#container #products li {
-  white-space: nowrap;
-}
 #container #products #products-list {
   list-style: none;
-  padding: 0;
+  padding: 10px 3px;
+  overflow-x: auto;
+  border: 1px dashed rgba(188, 188, 188, 0.566);
+}
+#container #products #products-list li {
+  white-space: nowrap;
+  display: inline-block;
+  font-size: 1em;
 }
 #container h2 {
-  margin-top: 10px;
+  margin-top: 0.6em;
 }
 #container div {
-  margin-bottom: 10px;
-}
-#container .hidden {
-  display: none;
+  margin-bottom: 0.6em;
 }/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,31 @@
+@mixin devices ($breakpoint) {
+    @if $breakpoint == huge {
+        @media (min-width: 1201px) {
+            @content
+        }
+    };
+
+    @if $breakpoint == ultra {
+        @media (max-width: 1200px) {
+            @content
+        }
+    };
+
+    @if $breakpoint == laptop {
+        @media (max-width: 992px) {
+            @content
+        }
+    };
+
+    @if $breakpoint == tablet {
+        @media (max-width: 768px) {
+            @content
+        }
+    };
+
+    @if $breakpoint == phone {
+        @media (max-width: 600px) {
+            @content
+        }
+    };
+}

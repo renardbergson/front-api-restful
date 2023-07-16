@@ -1,0 +1,23 @@
+@import 'breakpoints.scss';
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    @include devices (huge) {
+        font-size: 19px;
+    }
+    @include devices (ultra) {
+        font-size: 18px;
+    }
+    @include devices (laptop) {
+        font-size: 17px;
+    }
+    @include devices (tablet) {
+        font-size: 16px;
+    }
+    @include devices (phone) {
+        font-size: 15px;
+    }
+}

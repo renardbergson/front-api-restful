@@ -1,5 +1,8 @@
 # Front-End - API Restful
 
+### Link de Acesso
+Clique neste [link](https://front-api-restful.vercel.app), para conferir o projeto descrito a seguir. <br> 
+
 ### Descrição
 Esta é uma aplicação front-end que consome uma API construída em um outro projeto meu, a qual consulta um banco de dados MongoDB. 
 Aqui, através de um formulário, é possível cadastrar, listar, editar e excluir produtos. O formulário possui três campos: 
@@ -9,6 +12,10 @@ nome, marca e preço.
 Meu objetivo era construir uma aplicação completa, front-end e back-end, começando pela parte visual, depois criando uma API Restful 
 e um banco de dados, de modo que tudo poudesse integrar-se e entregar as operações básicas de um CRUD. Por fim, queria descobrir uma
 forma de hospedar tudo na nuvem, para que o sistema todo ficasse independente da minha máquina.
+
+### Maiores desafios
+  •	Construir o back-end / banco de dados <br>
+  •	Hospedar todas as camadas da aplicação <br>
 
 ### Principais funcionalidades
   •	Cadastrar <br>

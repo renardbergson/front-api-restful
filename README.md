@@ -56,8 +56,7 @@ forma de hospedar tudo na nuvem, para que o sistema todo ficasse independente da
 ### Preview
   •	Este é um pequeno preview da aplicação <br> 
 
-![gifPreview](https://github.com/renardbergson/front-api-restful/assets/97261795/0b0c6472-4e78-46d4-85ce-7a76d075d962)
-
+![gifPreviewComprimido](https://github.com/renardbergson/front-end-api-restful/assets/97261795/3f2e2978-fe4c-4d0c-ab69-92e5cbcf31ec)
 
 ### Autor
   •	Renard Bergson 🤓 <br>
